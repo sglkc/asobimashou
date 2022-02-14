@@ -19,14 +19,20 @@
 
 		<!-- Main Menu -->
 		<section id="menu" class="bg-light bg-gradient">
-			<div>
-				<h1 class="mb-3">
-					<ruby>遊びましょう！<rt>Asobimashou!</rt></ruby>
-				</h1>
-				<button id="start" class="btn btn-lg btn-outline-dark">
-					<i class="bi-play-fill"></i> Start
-				</button>
+			<h1 class="mb-3">
+				<ruby>遊びましょう！<rt>Asobimashou!</rt></ruby>
+			</h1>
+			<div class="btn-group-vertical" role="group">
+				<input type="radio" class="btn-check" name="game-type" id="game-hiragana" checked>
+				<label class="btn btn-outline-dark" for="game-hiragana">Hiragana</label>
+				<input type="radio" class="btn-check" name="game-type" id="game-mixed">
+				<label class="btn btn-outline-dark" for="game-mixed">Mixed</label>
+				<input type="radio" class="btn-check" name="game-type" id="game-katakana">
+				<label class="btn btn-outline-dark" for="game-katakana">Katakana</label>
 			</div>
+			<button id="start" class="btn btn-lg btn-outline-dark mt-3">
+				<i class="bi-play-fill"></i> Start
+			</button>
 		</section>
 
 		<!-- Play Area -->

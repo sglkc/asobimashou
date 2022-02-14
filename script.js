@@ -4,11 +4,13 @@ const game = {
   score: 0,
   total: 0,
   timer: 0,
-  skipped: []
+  skipped: [],
+  type: 'game-hiragana'
 };
 
 /* Game functions */
 function startGame() {
+  game.type = $("input[name='game-type']:checked").prop('id');
   $('#menu').animate({ top: '-100vh' }, 'slow');
   $('#answer').focus();
   nextQuestion();
@@ -43,9 +45,17 @@ function stopGame() {
 }
 
 function nextQuestion() {
-  let q = cards[Math.floor(Math.random()*cards.length)];
+  const hiragana = cards[Math.floor(Math.random()*cards.length)];
+  const katakana = wanakana.toKatakana(hiragana);
+  let question = hiragana;
 
-  $('#question').text(q);
+  if (game.type === 'game-mixed') {
+    question = Math.random() < 0.5 ? hiragana : katakana;
+  } else if (game.type === 'game-katakana') {
+    question = katakana;
+  }
+
+  $('#question').text(question);
   $('#answer').val('');
   $('#score').html(
     '<i class="bi-check-circle"></i> ' +
@@ -77,15 +87,15 @@ $('#restart').click(() => {
 /* Answer input handling */
 $('#answer').keyup(() => {
   const question = $('#question').text().trim();
+  const romaji = wanakana.toRomaji(question);
   const answer = $('#answer').val();
-  const kana = wanakana.toKana(answer);
 
   if (answer.indexOf(' ') > -1) {
     game.skipped.push(question);
     return nextQuestion();
   }
 
-  if (kana !== question) return;
+  if (romaji !== answer) return;
 
   game.score++;
   nextQuestion();
