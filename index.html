@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="favicon.ico" rel="icon">
+		<link href="style.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+					rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+					integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+					rel="stylesheet" crossorigin="anonymous">
+		<script src="cards.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://unpkg.com/wanakana"></script>
+		<title>Asobimashou!</title>
+	</head>
+	<body>
+
+		<!-- Main Menu -->
+		<section id="menu" class="bg-light bg-gradient">
+			<div>
+				<h1 class="mb-3">
+					<ruby>遊びましょう！<rt>Asobimashou!</rt></ruby>
+				</h1>
+				<button id="start" class="btn btn-lg btn-outline-dark">
+					<i class="bi-play-fill"></i> Start
+				</button>
+			</div>
+		</section>
+
+		<!-- Play Area -->
+		<main id="game" class="container h-100 d-flex justify-content-center flex-column">
+			<div class="row justify-content-center align-items-center text-center">
+				<h2 id="score" class="col col-lg-3 m-0">
+					<i class="bi-check-circle"></i> 0/0
+				</h2>
+				<button id="stop" class="col-auto btn btn-outline-dark">
+					<i class="bi-stop-fill"></i> End
+				</button>
+				<h2 id="time" class="col col-lg-3 m-0">
+					0 <i class="bi-clock"></i>
+				</h2>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-auto py-5 text-center">
+					<h1 id="question">またひとり</h1>
+				</div>
+			</div>
+			<div class="row justify-content-center mb-4">
+				<div class="col-10 col-md-7 col-lg-5">
+					<input id="answer" class="form-control-lg text-center w-100" placeholder="Answer">
+				</div>
+			</div>
+			<div class="row justify-content-center text-center">
+				<div class="col-auto">
+					Press <kbd>Space</kbd> to skip.
+				</div>
+				<div class="col-auto d-none d-md-block">
+					Press <kbd>Tab</kbd> to end.
+				</div>
+			</div>
+		</main>
+
+		<!-- End Banner -->
+		<section id="result">
+			<h1><b>Final Result</b></h1>
+			<div class="row mb-3 justify-content-center">
+				<div class="col-auto">
+					<p>Answered</p>
+					<i id="stats-answered">0</i>
+				</div>
+				<div class="col-auto">
+					<p>Skipped</p>
+					<i id="stats-skipped">0</i>
+				</div>
+				<div class="col-auto">
+					<p>Time</p>
+					<i id="stats-timer">0</i>
+				</div>
+				<div class="col-auto">
+					<p>Average</p>
+					<i id="stats-average">0</i>
+				</div>
+			</div>
+			<div id="skipped-wrapper" class="table-responsive">
+				<table class="table table-hover m-0">
+					<tbody id="skipped-table"></tbody>
+				</table>
+			</div>
+			<button id="restart" class="btn btn-outline-dark">
+				<i class="bi-list"></i> Title
+			</button>
+		</section>
+
+		<script src="script.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+						integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+						crossorigin="anonymous"></script>
+	</body>
+</html>
