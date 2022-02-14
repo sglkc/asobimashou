@@ -10,11 +10,17 @@ const game = {
 
 /* Game functions */
 function startGame() {
-  game.type = $("input[name='game-type']:checked").prop('id');
+  const element = $('#time');
+  const interval = setInterval(() => {
+    if (!game.start) return clearInterval(interval);
+    element.html(`${++game.timer} <i class="bi-clock"></i>`);
+  }, 1000);
+
   $('#menu').animate({ top: '-100vh' }, 'slow');
   $('#answer').focus();
+  game.start = true;
+  game.type = $("input[name='game-type']:checked").prop('id');
   nextQuestion();
-  startTimer();
 }
 
 function stopGame() {
@@ -64,16 +70,6 @@ function nextQuestion() {
   game.total++;
 }
 
-function startTimer() {
-  game.start = true;
-  const element = $('#time');
-  const interval = setInterval(() => {
-    if (!game.start) return clearInterval(interval);
-    element.html(`${++game.timer} <i class="bi-clock"></i>`);
-  }, 1000);
-}
-
-/* Button event listeners */
 $('#start').click(startGame);
 
 $('#stop').click(stopGame);
