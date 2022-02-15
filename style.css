@@ -18,9 +18,8 @@ body {
   left: 0;
 }
 
-#result {
-  background: #ffffffef;
-  top: 100vh;
+#menu, #menu > * {
+  transition: border-color .5s, background-color .5s, color .1s;
 }
 
 #question {
@@ -28,6 +27,7 @@ body {
 }
 
 #answer, #answer:focus {
+  background: none;
   border: none;
   outline: none;
   box-shadow: 0 0 5px gray;
@@ -36,7 +36,13 @@ body {
 }
 
 #result {
+  background-color: #ffffffef;
+  top: 100vh;
   height: 100vh;
+}
+
+#result.bg-dark {
+  background-color: #000000cf!important;
 }
 
 #skipped-wrapper {

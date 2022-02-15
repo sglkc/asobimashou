@@ -70,6 +70,24 @@ function nextQuestion() {
   game.total++;
 }
 
+/* Game settings */
+$('#game-font').change(() => {
+  $('.game-font-change').css('font-family', $('#game-font').val());
+});
+
+$('.game-theme').click((evt) => {
+  if ($(evt.target).hasClass('active')) return;
+
+  $('.game-theme').removeClass('active');
+  $(evt.target).addClass('active');
+  $('body, #menu, #result').toggleClass('bg-dark text-white');
+  $('#answer').toggleClass('text-white');
+  $('kbd').toggleClass('bg-light text-black');
+  $('.table').toggleClass('table-hover text-white');
+  $('.btn').toggleClass('btn-outline-dark btn-outline-light');
+});
+
+/* Buttons event listener */
 $('#start').click(startGame);
 
 $('#stop').click(stopGame);
@@ -78,10 +96,6 @@ $('#restart').click(() => {
   $('#menu').animate({ top: 0 }, 750);
   $('#result').animate({ top: '100vh' }, 800);
   $('#start').focus();
-});
-
-$('#game-font').change(() => {
-  $('.game-font-change').css('font-family', $('#game-font').val());
 });
 
 /* Answer input handling */
