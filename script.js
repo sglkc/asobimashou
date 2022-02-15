@@ -1,54 +1,80 @@
-/* Game variable */
-const game = {
-  start: false,
+/* Game initialization */
+const DEFAULT = {
   score: 0,
   total: 0,
   timer: 0,
   skipped: [],
-  type: 'game-hiragana'
+  type: 'game-hiragana',
+  theme: 'light',
+  font: 'inherit'
+};
+const LOCAL = JSON.parse(localStorage.getItem('GAME'));
+const GAME = LOCAL || DEFAULT;
+let started = false;
+
+/* Apply saved game settings */
+if (GAME.font !== DEFAULT.font) changeFont();
+if (GAME.theme !== DEFAULT.theme) {
+  $('.game-theme').removeClass('active');
+  $('.game-theme[value=dark]').addClass('active');
+  toggleTheme();
+}
+
+$(`#${GAME.type}`).prop('checked', true);
+
+/* Game setting functions */
+function changeFont() {
+  $('#game-font').val(GAME.font);
+  $('.game-font-change').css('font-family', GAME.font);
+}
+
+function toggleTheme() {
+  $('body, #menu, #result').toggleClass('bg-dark text-white');
+  $('#answer').toggleClass('text-white');
+  $('kbd').toggleClass('bg-light text-black');
+  $('.table').toggleClass('table-hover text-white');
+  $('.btn').toggleClass('btn-outline-dark btn-outline-light');
 };
 
 /* Game functions */
 function startGame() {
   const element = $('#time');
   const interval = setInterval(() => {
-    if (!game.start) return clearInterval(interval);
-    element.html(`${++game.timer} <i class="bi-clock"></i>`);
+    if (!started) return clearInterval(interval);
+    element.html(`${++GAME.timer} <i class="bi-clock"></i>`);
   }, 1000);
 
   $('#game').removeClass('d-none');
   $('#menu').slideUp(800);
   $('#answer').focus();
-  game.start = true;
-  game.type = $("input[name='game-type']:checked").prop('id');
+  started = true;
+  GAME.type = $("input[name='game-type']:checked").prop('id');
+  localStorage.setItem('GAME', JSON.stringify(GAME));
   nextQuestion();
 }
 
 function stopGame() {
   $('#result').removeClass('d-none').animate({ top: '0' }, 'slow');
   $('#skipped-table').html('');
-  $('#stats-answered').text(game.score);
-  $('#stats-skipped').text(game.skipped.length);
-  $('#stats-timer').text(game.timer + 's');
-  $('#stats-average').text(((game.timer / game.total).toFixed(2) || 0) + 's');
+  $('#stats-answered').text(GAME.score);
+  $('#stats-skipped').text(GAME.skipped.length);
+  $('#stats-timer').text(GAME.timer + 's');
+  $('#stats-average').text(((GAME.timer / GAME.total).toFixed(2) || 0) + 's');
 
-  if (game.skipped.length) {
-    game.skipped.forEach((word) => {
+  if (GAME.skipped.length) {
+    GAME.skipped.forEach((word) => {
       $('#skipped-table').append(
         `<tr><th>${word}</th><th>${wanakana.toRomaji(word)}</th></tr>`
       );
     });
-  } else if (game.score) {
+  } else if (GAME.score) {
     $('#skipped-table').append('<b>You answered every questions!</b>');
   } else {
     $('#skipped-table').append('<b>Wow, 0 answers!</b>');
   }
 
-  game.start = false;
-  game.score = 0;
-  game.total = 0;
-  game.timer = 0;
-  game.skipped = [];
+  started = false;
+  GAME = DEFAULT;
 }
 
 function restartGame() {
@@ -65,9 +91,9 @@ function nextQuestion() {
   const katakana = wanakana.toKatakana(hiragana);
   let question = hiragana;
 
-  if (game.type === 'game-mixed') {
+  if (GAME.type === 'game-mixed') {
     question = Math.random() < 0.5 ? hiragana : katakana;
-  } else if (game.type === 'game-katakana') {
+  } else if (GAME.type === 'game-katakana') {
     question = katakana;
   }
 
@@ -75,26 +101,23 @@ function nextQuestion() {
   $('#answer').val('');
   $('#score').html(
     '<i class="bi-check-circle"></i> ' +
-    `${game.score}/${game.total}`
+    `${GAME.score}/${GAME.total}`
   );
-  game.total++;
+  GAME.total++;
 }
 
 /* Game settings */
 $('#game-font').change(() => {
-  $('.game-font-change').css('font-family', $('#game-font').val());
+  GAME.font = $('#game-font').val();
+  changeFont();
 });
 
 $('.game-theme').click((evt) => {
   if ($(evt.target).hasClass('active')) return;
-
   $('.game-theme').removeClass('active');
   $(evt.target).addClass('active');
-  $('body, #menu, #result').toggleClass('bg-dark text-white');
-  $('#answer').toggleClass('text-white');
-  $('kbd').toggleClass('bg-light text-black');
-  $('.table').toggleClass('table-hover text-white');
-  $('.btn').toggleClass('btn-outline-dark btn-outline-light');
+  GAME.theme = $(evt.target).val();
+  toggleTheme();
 });
 
 /* Buttons event listener */
@@ -109,13 +132,13 @@ $('#answer').keyup(() => {
   const answer = $('#answer').val();
 
   if (answer.indexOf(' ') > -1) {
-    game.skipped.push(question);
+    GAME.skipped.push(question);
     return nextQuestion();
   }
 
   if (romaji !== answer) return;
 
-  game.score++;
+  GAME.score++;
   nextQuestion();
 });
 
