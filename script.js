@@ -16,7 +16,8 @@ function startGame() {
     element.html(`${++game.timer} <i class="bi-clock"></i>`);
   }, 1000);
 
-  $('#menu').animate({ top: '-100vh' }, 'slow');
+  $('#game').removeClass('d-none');
+  $('#menu').slideUp(800);
   $('#answer').focus();
   game.start = true;
   game.type = $("input[name='game-type']:checked").prop('id');
@@ -24,7 +25,7 @@ function startGame() {
 }
 
 function stopGame() {
-  $('#result').animate({ top: '0' }, 'slow');
+  $('#result').removeClass('d-none').animate({ top: '0' }, 'slow');
   $('#skipped-table').html('');
   $('#stats-answered').text(game.score);
   $('#stats-skipped').text(game.skipped.length);
@@ -48,6 +49,15 @@ function stopGame() {
   game.total = 0;
   game.timer = 0;
   game.skipped = [];
+}
+
+function restartGame() {
+  $('#menu').slideDown(750);
+  $('#result').animate({ top: '100vh' }, 800, () => {
+    $('#result').addClass('d-none');
+    $('#game').addClass('d-none');
+    $('#start').focus();
+  });
 }
 
 function nextQuestion() {
@@ -89,14 +99,8 @@ $('.game-theme').click((evt) => {
 
 /* Buttons event listener */
 $('#start').click(startGame);
-
 $('#stop').click(stopGame);
-
-$('#restart').click(() => {
-  $('#menu').animate({ top: 0 }, 750);
-  $('#result').animate({ top: '100vh' }, 800);
-  $('#start').focus();
-});
+$('#restart').click(restartGame);
 
 /* Answer input handling */
 $('#answer').keyup(() => {
