@@ -74,7 +74,6 @@ function stopGame() {
   }
 
   started = false;
-  GAME = DEFAULT;
 }
 
 function restartGame() {
@@ -82,8 +81,15 @@ function restartGame() {
   $('#result').animate({ top: '100vh' }, 800, () => {
     $('#result').addClass('d-none');
     $('#game').addClass('d-none');
+    $('#time').html('0 <i class="bi-clock"></i>');
+    $('#score').html('<i class="bi-check-circle"></i> 0');
     $('#start').focus();
   });
+
+  GAME.score = DEFAULT.score;
+  GAME.total = DEFAULT.total;
+  GAME.timer = DEFAULT.timer;
+  GAME.skipped = DEFAULT.skipped;
 }
 
 function nextQuestion() {
