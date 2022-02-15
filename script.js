@@ -134,15 +134,16 @@ $('#restart').click(restartGame);
 /* Answer input handling */
 $('#answer').keyup(() => {
   const question = $('#question').text().trim();
-  const romaji = wanakana.toRomaji(question);
+  const q = wanakana.toHiragana(question);
   const answer = $('#answer').val();
+  const a = wanakana.toHiragana(answer);
 
   if (answer.indexOf(' ') > -1) {
     GAME.skipped.push(question);
     return nextQuestion();
   }
 
-  if (romaji !== answer) return;
+  if (q !== a) return;
 
   GAME.score++;
   nextQuestion();
