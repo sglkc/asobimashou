@@ -80,6 +80,10 @@ $('#restart').click(() => {
   $('#start').focus();
 });
 
+$('#game-font').change(() => {
+  $('.game-font-change').css('font-family', $('#game-font').val());
+});
+
 /* Answer input handling */
 $('#answer').keyup(() => {
   const question = $('#question').text().trim();
