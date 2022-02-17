@@ -1,8 +1,8 @@
 /* Game initialization */
 const DEFAULT = {
-  score: 0,
   total: 0,
   timer: 0,
+  answered: [],
   skipped: [],
   type: 'game-hiragana',
   theme: 'light',
@@ -10,7 +10,7 @@ const DEFAULT = {
   dakuten: true
 };
 const LOCAL = JSON.parse(localStorage.getItem('GAME')) || {};
-const GAME = Object.assign(LOCAL, Object.create(DEFAULT));
+const GAME = Object.assign({}, DEFAULT, LOCAL);
 let started = false;
 let cards;
 
@@ -64,27 +64,50 @@ function startGame() {
 }
 
 function stopGame() {
+  const average = (GAME.timer / (GAME.answered.length + GAME.skipped.length));
+
   $('#result').removeClass('d-none').animate({ top: '0' }, 'slow');
-  $('#skipped-table').html('');
-  $('#stats-answered').text(GAME.score);
+  $('#review-table').html('');
+  $('#stats-answered').text(GAME.answered.length);
   $('#stats-skipped').text(GAME.skipped.length);
   $('#stats-timer').text(GAME.timer + 's');
-  $('#stats-average').text(((GAME.timer / GAME.total).toFixed(2) || 0) + 's');
+  $('#stats-average').text(average.toFixed(2) + 's');
   $('#restart').focus();
+  started = false;
 
-  if (GAME.skipped.length) {
-    GAME.skipped.forEach((word) => {
-      $('#skipped-table').append(
-        `<tr><th>${word}</th><th>${wanakana.toRomaji(word)}</th></tr>`
-      );
-    });
-  } else if (GAME.score) {
-    $('#skipped-table').append('<b>You answered every questions!</b>');
-  } else {
-    $('#skipped-table').append('<b>Wow, 0 answers!</b>');
+  if (!GAME.answered.length && !GAME.skipped.length) {
+    return $('#review-wrapper').prepend('<b>Be serious.</b>');
+  } else if (!GAME.answered.length && GAME.skipped.length) {
+    $('#review-wrapper').prepend('<b>Practice more!</b>');
   }
 
-  started = false;
+  if (GAME.answered.length) {
+    $('#review-table').append('<tr><th colspan="3">Answered:</th></tr>');
+    GAME.answered.forEach((i) => {
+      const card = cards[i.id];
+      const jisho = 'https://jisho.org/word/' + card.kanji;
+      const meaning = card.meaning.split(', ')[0];
+      const romaji = wanakana.toRomaji(i.question);
+      $('#review-table').append(
+        `<tr><th><a href="${jisho}" target="_blank">${i.question}</a>` +
+        `</th><td>${romaji}</td><td>${meaning}</td></tr>`
+      );
+    });
+  }
+
+  if (GAME.skipped.length) {
+    $('#review-table').append('<tr><th colspan="3">Skipped:</th></tr>');
+    GAME.skipped.forEach((i) => {
+      const card = cards[i.id];
+      const jisho = 'https://jisho.org/word/' + card.kanji;
+      const meaning = card.meaning.split(', ')[0];
+      const romaji = wanakana.toRomaji(i.question);
+      $('#review-table').append(
+        `<tr><th><a href="${jisho}" target="_blank">${i.question}</a>` +
+        `</th><td>${romaji}</td><td>${meaning}</td></tr>`
+      );
+    });
+  }
 }
 
 function restartGame() {
@@ -94,13 +117,13 @@ function restartGame() {
     $('#game').addClass('d-none');
     $('#time').html('0 <i class="bi-clock"></i>');
     $('#score').html('<i class="bi-check-circle"></i> 0');
+    $('#review-wrapper b').remove();
     $('#start').prop('disabled', false);
     $('#start').focus();
   });
 
-  GAME.score = DEFAULT.score;
-  GAME.total = DEFAULT.total;
   GAME.timer = DEFAULT.timer;
+  GAME.answered = DEFAULT.answered.slice();
   GAME.skipped = DEFAULT.skipped.slice();
 }
 
@@ -109,14 +132,15 @@ function nextQuestion() {
     'ば','ぶ','び','べ','ぼ','が','ぎ','ぐ','げ','ご','ざ','じ','ず','ぜ','ぞ',
     'だ','ぢ','づ','で','ど','ぱ','ぴ','ぷ','ぺ','ぽ'
   ];
-  let card = cards[Math.floor(Math.random()*cards.length)];
+  let id = Math.floor(Math.random()*cards.length);
 
   if (!(GAME.dakuten)) {
     do {
-      card = cards[Math.floor(Math.random()*cards.length)];
-    } while (dakuten.some(e => card.hiragana.includes(e)))
+      id = Math.floor(Math.random()*cards.length);
+    } while (dakuten.some(e => cards[id].hiragana.includes(e)))
   }
 
+  const card = cards[id];
   const hiragana = card.hiragana;
   const katakana = wanakana.toKatakana(hiragana);
   let question = hiragana;
@@ -128,12 +152,12 @@ function nextQuestion() {
   }
 
   $('#question').text(question);
+  $('#question-id').val(id);
   $('#answer').val('');
   $('#score').html(
     '<i class="bi-check-circle"></i> ' +
-    `${GAME.score}/${GAME.total}`
+    `${GAME.answered.length}/${GAME.answered.length + GAME.skipped.length}`
   );
-  GAME.total++;
 }
 
 /* Game settings */
@@ -161,19 +185,20 @@ $('#restart').click(restartGame);
 
 /* Answer input handling */
 $('#answer').keyup(() => {
+  const id = $('#question-id').val();
   const question = $('#question').text().trim();
   const q = wanakana.toHiragana(question);
   const answer = $('#answer').val();
   const a = wanakana.toHiragana(answer);
 
   if (answer.indexOf(' ') > -1) {
-    GAME.skipped.push(question);
+    GAME.skipped.push({ id, question});
     return nextQuestion();
   }
 
   if (q !== a) return;
 
-  GAME.score++;
+  GAME.answered.push({ id, question });
   nextQuestion();
 });
 

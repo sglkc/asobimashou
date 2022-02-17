@@ -26,7 +26,7 @@ body {
 }
 
 .form-select:focus {
-  border-color: initial!important;
+  border-color: #ced4da!important;
   box-shadow: none!important;
 }
 
@@ -41,7 +41,7 @@ label[for="game-dakuten"]:before {
 }
 
 #question {
-  font-size: clamp(70px, 10vw, 100px);
+  font-size: clamp(60px, 10vw, 100px);
 }
 
 #answer, #answer:focus {
@@ -63,23 +63,32 @@ label[for="game-dakuten"]:before {
   background-color: #000000cf!important;
 }
 
-#skipped-wrapper {
+#review-wrapper {
   margin-bottom: 1em;
   max-height: 50vh;
 }
 
-#skipped-wrapper::-webkit-scrollbar {
-  width: 16px;
+#review-wrapper::-webkit-scrollbar {
+  width: 10px;
 }
 
-#skipped-wrapper::-webkit-scrollbar-track {
+#review-wrapper::-webkit-scrollbar-track {
   background-color: #e4e4e43f;
   border-radius: 100px;
 }
 
-#skipped-wrapper::-webkit-scrollbar-thumb {
+#review-wrapper::-webkit-scrollbar-thumb {
   background-color: #a1a1a13f;
   border-radius: 100px;
+}
+
+#review-table a {
+  font-size: larger;
+  color: inherit;
+}
+
+#review-table td {
+  font-family: var(--bs-body-font-family);
 }
 
 th, td {

@@ -17,7 +17,7 @@
 					integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
 					rel="stylesheet" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="https://unpkg.com/wanakana" async></script>
+		<script src="https://unpkg.com/wanakana"></script>
 		<title>Asobimashou!</title>
 	</head>
 	<body>
@@ -76,7 +76,8 @@
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-auto py-5">
-					<h1 id="question" class="game-font-change">またひとり</h1>
+					<h1 id="question" class="display-4 game-font-change">またひとり</h1>
+					<input id="question-id" class="d-none" type="number">
 				</div>
 			</div>
 			<div class="row justify-content-center mb-4">
@@ -115,9 +116,9 @@
 					<i id="stats-average">0</i>
 				</div>
 			</div>
-			<div id="skipped-wrapper" class="table-responsive">
+			<div id="review-wrapper" class="table-responsive">
 				<table class="table table-hover m-0">
-					<tbody id="skipped-table" class="game-font-change"></tbody>
+					<tbody id="review-table" class="game-font-change"></tbody>
 				</table>
 			</div>
 			<button id="restart" class="btn btn-outline-dark">
