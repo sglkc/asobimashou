@@ -118,6 +118,7 @@ function restartGame() {
     $('#time').html('0 <i class="bi-clock"></i>');
     $('#score').html('<i class="bi-check-circle"></i> 0');
     $('#review-wrapper b').remove();
+    $('#copy').html('<i class="bi-share"></i> Share');
     $('#start').prop('disabled', false);
     $('#start').focus();
   });
@@ -182,6 +183,18 @@ $('#game-dakuten').click((evt) => {
 $('#start').click(startGame);
 $('#stop').click(stopGame);
 $('#restart').click(restartGame);
+$('#copy').click(() => {
+  const average = (GAME.timer / (GAME.answered.length + GAME.skipped.length));
+  const text = 'Asobimashou! 遊びましょう！\n' +
+    'https://asobimashou.netlify.app/\n' +
+    `Answered: ${GAME.answered.length} | Skipped: ${GAME.skipped.length}\n` +
+    `Time: ${GAME.timer}s | Average: ${average.toFixed(2)}s`;
+  const element = $('<textarea></textarea>').appendTo('#result');
+  $(element).html(text).select();
+  document.execCommand('copy');
+  $(element).remove();
+  $('#copy').html('<i class="bi-share"></i> Copied to clipboard!');
+});
 
 /* Answer input handling */
 $('#answer').keyup(() => {
