@@ -11,6 +11,13 @@ const DEFAULT = {
 const LOCAL = JSON.parse(localStorage.getItem('GAME'));
 const GAME = LOCAL || DEFAULT;
 let started = false;
+let cards;
+
+$.getJSON('cards.json', (data) => {
+  cards = data.cards;
+  $('#start').prop('disabled', false);
+  $('#start').html('<i class="bi-play-fill"></i> Start');
+});
 
 /* Apply saved game settings */
 if (GAME.font !== DEFAULT.font) changeFont();
@@ -44,8 +51,9 @@ function startGame() {
     element.html(`${++GAME.timer} <i class="bi-clock"></i>`);
   }, 1000);
 
+  $('#start').prop('disabled', true);
   $('#game').removeClass('d-none');
-  $('#menu').slideUp(800);
+  $('#menu').slideUp(500);
   $('#answer').focus();
   started = true;
   GAME.type = $("input[name='game-type']:checked").prop('id');
@@ -60,6 +68,7 @@ function stopGame() {
   $('#stats-skipped').text(GAME.skipped.length);
   $('#stats-timer').text(GAME.timer + 's');
   $('#stats-average').text(((GAME.timer / GAME.total).toFixed(2) || 0) + 's');
+  $('#restart').focus();
 
   if (GAME.skipped.length) {
     GAME.skipped.forEach((word) => {
@@ -83,17 +92,19 @@ function restartGame() {
     $('#game').addClass('d-none');
     $('#time').html('0 <i class="bi-clock"></i>');
     $('#score').html('<i class="bi-check-circle"></i> 0');
+    $('#start').prop('disabled', false);
     $('#start').focus();
   });
 
   GAME.score = DEFAULT.score;
   GAME.total = DEFAULT.total;
   GAME.timer = DEFAULT.timer;
-  GAME.skipped = DEFAULT.skipped;
+  GAME.skipped = DEFAULT.skipped.slice();
 }
 
 function nextQuestion() {
-  const hiragana = cards[Math.floor(Math.random()*cards.length)];
+  const card = cards[Math.floor(Math.random()*cards.length)];
+  const hiragana = card.hiragana;
   const katakana = wanakana.toKatakana(hiragana);
   let question = hiragana;
 
