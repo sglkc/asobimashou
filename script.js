@@ -30,6 +30,9 @@ if (GAME.theme !== DEFAULT.theme) {
 
 $(`#${GAME.type}`).prop('checked', true);
 $('#game-dakuten').prop('checked', GAME.dakuten);
+$('label[for="game-dakuten"] span').toggleClass(
+  'text-decoration-line-through', !GAME.dakuten
+);
 
 /* Game setting functions */
 function changeFont() {
@@ -175,8 +178,11 @@ $('.game-theme').click((evt) => {
   toggleTheme();
 });
 
-$('#game-dakuten').click((evt) => {
-  GAME.dakuten = $(evt.target).prop('checked');
+$('#game-dakuten').click(() => {
+  GAME.dakuten = $('#game-dakuten').prop('checked');
+  $('label[for="game-dakuten"] span').toggleClass(
+    'text-decoration-line-through', !GAME.dakuten
+  );
 });
 
 /* Buttons event listener */
