@@ -6,10 +6,11 @@ const DEFAULT = {
   skipped: [],
   type: 'game-hiragana',
   theme: 'light',
-  font: 'inherit'
+  font: 'inherit',
+  dakuten: true
 };
-const LOCAL = JSON.parse(localStorage.getItem('GAME'));
-const GAME = LOCAL || DEFAULT;
+const LOCAL = JSON.parse(localStorage.getItem('GAME')) || {};
+const GAME = Object.assign(LOCAL, Object.create(DEFAULT));
 let started = false;
 let cards;
 
@@ -28,6 +29,7 @@ if (GAME.theme !== DEFAULT.theme) {
 }
 
 $(`#${GAME.type}`).prop('checked', true);
+$('#game-dakuten').prop('checked', GAME.dakuten);
 
 /* Game setting functions */
 function changeFont() {
@@ -103,7 +105,18 @@ function restartGame() {
 }
 
 function nextQuestion() {
-  const card = cards[Math.floor(Math.random()*cards.length)];
+  const dakuten = [
+    'ば','ぶ','び','べ','ぼ','が','ぎ','ぐ','げ','ご','ざ','じ','ず','ぜ','ぞ',
+    'だ','ぢ','づ','で','ど','ぱ','ぴ','ぷ','ぺ','ぽ'
+  ];
+  let card = cards[Math.floor(Math.random()*cards.length)];
+
+  if (!(GAME.dakuten)) {
+    do {
+      card = cards[Math.floor(Math.random()*cards.length)];
+    } while (dakuten.some(e => card.hiragana.includes(e)))
+  }
+
   const hiragana = card.hiragana;
   const katakana = wanakana.toKatakana(hiragana);
   let question = hiragana;
@@ -135,6 +148,10 @@ $('.game-theme').click((evt) => {
   $(evt.target).addClass('active');
   GAME.theme = $(evt.target).val();
   toggleTheme();
+});
+
+$('#game-dakuten').click((evt) => {
+  GAME.dakuten = $(evt.target).prop('checked');
 });
 
 /* Buttons event listener */

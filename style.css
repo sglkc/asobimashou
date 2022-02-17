@@ -25,6 +25,21 @@ body {
   transition: border-color .5s, background-color .5s, color .1s;
 }
 
+.form-select:focus {
+  border-color: initial!important;
+  box-shadow: none!important;
+}
+
+label[for="game-dakuten"] > span {
+  padding-left: 1em;
+}
+
+label[for="game-dakuten"]:before {
+  position: absolute;
+  font-size: 2em;
+  content: "\309B";
+}
+
 #question {
   font-size: clamp(70px, 10vw, 100px);
 }
@@ -54,17 +69,17 @@ body {
 }
 
 #skipped-wrapper::-webkit-scrollbar {
-    width: 16px;
+  width: 16px;
 }
 
 #skipped-wrapper::-webkit-scrollbar-track {
-    background-color: #e4e4e43f;
-    border-radius: 100px;
+  background-color: #e4e4e43f;
+  border-radius: 100px;
 }
 
 #skipped-wrapper::-webkit-scrollbar-thumb {
-    background-color: #a1a1a13f;
-    border-radius: 100px;
+  background-color: #a1a1a13f;
+  border-radius: 100px;
 }
 
 th, td {
