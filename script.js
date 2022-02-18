@@ -2,8 +2,8 @@
 const DEFAULT = {
   total: 0,
   timer: 0,
-  answered: [],
-  skipped: [],
+  answered: 0,
+  skipped: 0,
   type: 'game-hiragana',
   theme: 'light',
   font: 'inherit',
@@ -56,6 +56,7 @@ function startGame() {
     element.html(`${++GAME.timer} <i class="bi-clock"></i>`);
   }, 1000);
 
+  $('#review-table').html('');
   $('#start').prop('disabled', true);
   $('#game').removeClass('d-none');
   $('#menu').slideUp(500);
@@ -67,49 +68,20 @@ function startGame() {
 }
 
 function stopGame() {
-  const average = (GAME.timer / (GAME.answered.length + GAME.skipped.length));
+  const average = (GAME.timer / (GAME.answered + GAME.skipped));
 
   $('#result').removeClass('d-none').animate({ top: '0' }, 'slow');
-  $('#review-table').html('');
-  $('#stats-answered').text(GAME.answered.length);
-  $('#stats-skipped').text(GAME.skipped.length);
+  $('#stats-answered').text(GAME.answered);
+  $('#stats-skipped').text(GAME.skipped);
   $('#stats-timer').text(GAME.timer + 's');
   $('#stats-average').text(average.toFixed(2) + 's');
   $('#restart').focus();
   started = false;
 
-  if (!GAME.answered.length && !GAME.skipped.length) {
-    return $('#review-wrapper').prepend('<b>Be serious.</b>');
-  } else if (!GAME.answered.length && GAME.skipped.length) {
+  if (!GAME.answered && !GAME.skipped) {
+    $('#review-wrapper').prepend('<b>Be serious.</b>');
+  } else if (!GAME.answered && GAME.skipped) {
     $('#review-wrapper').prepend('<b>Practice more!</b>');
-  }
-
-  if (GAME.answered.length) {
-    $('#review-table').append('<tr><th colspan="3">Answered:</th></tr>');
-    GAME.answered.forEach((i) => {
-      const card = cards[i.id];
-      const jisho = 'https://jisho.org/word/' + card.kanji;
-      const meaning = card.meaning.split(', ')[0];
-      const romaji = wanakana.toRomaji(i.question);
-      $('#review-table').append(
-        `<tr><th><a href="${jisho}" target="_blank">${i.question}</a>` +
-        `</th><td>${romaji}</td><td>${meaning}</td></tr>`
-      );
-    });
-  }
-
-  if (GAME.skipped.length) {
-    $('#review-table').append('<tr><th colspan="3">Skipped:</th></tr>');
-    GAME.skipped.forEach((i) => {
-      const card = cards[i.id];
-      const jisho = 'https://jisho.org/word/' + card.kanji;
-      const meaning = card.meaning.split(', ')[0];
-      const romaji = wanakana.toRomaji(i.question);
-      $('#review-table').append(
-        `<tr><th><a href="${jisho}" target="_blank">${i.question}</a>` +
-        `</th><td>${romaji}</td><td>${meaning}</td></tr>`
-      );
-    });
   }
 }
 
@@ -127,8 +99,8 @@ function restartGame() {
   });
 
   GAME.timer = DEFAULT.timer;
-  GAME.answered = DEFAULT.answered.slice();
-  GAME.skipped = DEFAULT.skipped.slice();
+  GAME.answered = DEFAULT.answered;
+  GAME.skipped = DEFAULT.skipped;
 }
 
 function nextQuestion() {
@@ -160,7 +132,7 @@ function nextQuestion() {
   $('#answer').val('');
   $('#score').html(
     '<i class="bi-check-circle"></i> ' +
-    `${GAME.answered.length}/${GAME.answered.length + GAME.skipped.length}`
+    `${GAME.answered}/${GAME.answered + GAME.skipped}`
   );
 }
 
@@ -190,10 +162,13 @@ $('#start').click(startGame);
 $('#stop').click(stopGame);
 $('#restart').click(restartGame);
 $('#copy').click(() => {
-  const average = (GAME.timer / (GAME.answered.length + GAME.skipped.length));
+  const average = (GAME.timer / (GAME.answered + GAME.skipped));
+  const type = $(`label[for="${GAME.type}"]`).text().trim();
+  const dakuten = GAME.dakuten ? 'with' : 'without';
   const text = 'Asobimashou! 遊びましょう！\n' +
     'https://asobimashou.netlify.app/\n' +
-    `Answered: ${GAME.answered.length} | Skipped: ${GAME.skipped.length}\n` +
+    `Game Type: ${type}, ${dakuten} dakuten\n` +
+    `Answered: ${GAME.answered} | Skipped: ${GAME.skipped}\n` +
     `Time: ${GAME.timer}s | Average: ${average.toFixed(2)}s`;
   const element = $('<textarea></textarea>').appendTo('#result');
   $(element).html(text).select();
@@ -205,19 +180,31 @@ $('#copy').click(() => {
 /* Answer input handling */
 $('#answer').keyup(() => {
   const id = $('#question-id').val();
+  const card = cards[id];
+  const jisho = 'https://jisho.org/word/' + card.kanji;
+  const meaning = card.meaning.split(', ')[0];
   const question = $('#question').text().trim();
+  const romaji = wanakana.toRomaji(question);
   const q = wanakana.toHiragana(question);
   const answer = $('#answer').val();
   const a = wanakana.toHiragana(answer);
 
   if (answer.indexOf(' ') > -1) {
-    GAME.skipped.push({ id, question});
+    $('#review-table').append(
+      `<tr><th><a href="${jisho}" target="_blank">${question}</a>` +
+      `</th><td class="text-danger">${romaji}</td><td>${meaning}</td></tr>`
+    );
+    GAME.skipped++;
     return nextQuestion();
   }
 
   if (q !== a) return;
 
-  GAME.answered.push({ id, question });
+  $('#review-table').append(
+    `<tr><th><a href="${jisho}" target="_blank">${question}</a>` +
+    `</th><td>${romaji}</td><td>${meaning}</td></tr>`
+  );
+  GAME.answered++;
   nextQuestion();
 });
 
