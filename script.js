@@ -158,6 +158,9 @@ $('#game-dakuten').click(() => {
 });
 
 /* Buttons event listener */
+$('#option').click(() => {
+  $('#option-wrapper').toggleClass('collapsed p-3');
+});
 $('#start').click(startGame);
 $('#stop').click(stopGame);
 $('#restart').click(restartGame);

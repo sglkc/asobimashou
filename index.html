@@ -27,36 +27,43 @@
 			<div class="mb-3 display-5 game-font-change">
 				<ruby>遊びましょう！<rt>Asobimashou!</rt></ruby>
 			</div>
-			<div class="row justify-content-center align-items-center gy-3">
-				<div class="col-auto btn-group-vertical">
-					<select id="game-font" class="form-select rounded-0 rounded-top">
-						<option value="inherit" selected>Default Font</option>
-						<option value="Klee One">Klee One</option>
-						<option value="Noto Serif JP">Noto Serif JP</option>
-						<option value="Yuji Syuku">Yuji Syuku</option>
-					</select>
-					<div class="btn-group" role="group">
-						<button class="btn btn-outline-dark game-theme active" value="light">Light</button>
-						<button class="btn btn-outline-dark game-theme" value="dark">Dark</button>
-					</div>
-				</div>
-				<div class="col-auto btn-group-vertical" role="group">
-					<input type="radio" class="btn-check" name="game-type" id="game-hiragana" checked>
-					<label class="btn btn-outline-dark" for="game-hiragana">ひらがな</label>
-					<input type="radio" class="btn-check" name="game-type" id="game-mixed">
-					<label class="btn btn-outline-dark" for="game-mixed">Mixed</label>
-					<input type="radio" class="btn-check" name="game-type" id="game-katakana">
-					<label class="btn btn-outline-dark" for="game-katakana">カタカナ</label>
-				</div>
-				<div class="col-auto">
-					<input type="checkbox" class="btn-check" id="game-dakuten" checked>
-					<label class="btn btn-outline-dark" for="game-dakuten"><span>Dakuten</span></label>
-				</div>
-			</div>
-			<button id="start" class="btn btn-outline-dark mt-3" disabled>
+			<button id="start" class="btn btn-outline-dark mb-3" disabled>
 				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 				<span>Loading Game...</span>
 			</button>
+			<button id="option" class="btn btn-outline-dark mb-3">
+				<i class="bi-gear-fill"></i> Options
+			</button>
+			<div id="option-wrapper" class="rounded">
+				<div class="row align-items-center">
+					<div class="col-auto btn-group-vertical">
+						<select id="game-font" class="form-select rounded-0 rounded-top">
+							<option value="inherit" selected>Default Font</option>
+							<option value="Klee One">Klee One</option>
+							<option value="Noto Serif JP">Noto Serif JP</option>
+							<option value="Yuji Syuku">Yuji Syuku</option>
+						</select>
+						<div class="btn-group" role="group">
+							<button class="btn btn-outline-dark game-theme active" value="light">Light</button>
+							<button class="btn btn-outline-dark game-theme" value="dark">Dark</button>
+						</div>
+					</div>
+					<div class="col-auto btn-group-vertical" role="group">
+						<input type="radio" class="btn-check" name="game-type" id="game-hiragana" checked>
+						<label class="btn btn-outline-dark" for="game-hiragana">ひらがな</label>
+						<input type="radio" class="btn-check" name="game-type" id="game-mixed">
+						<label class="btn btn-outline-dark" for="game-mixed">Mixed</label>
+						<input type="radio" class="btn-check" name="game-type" id="game-katakana">
+						<label class="btn btn-outline-dark" for="game-katakana">カタカナ</label>
+					</div>
+					<div class="col-auto">
+						<input type="checkbox" class="btn-check" id="game-dakuten" checked>
+						<label class="btn btn-outline-dark" for="game-dakuten">
+							<span>Dakuten</span>
+						</label>
+					</div>
+				</div>
+			</div>
 		</section>
 
 		<!-- Play Area -->

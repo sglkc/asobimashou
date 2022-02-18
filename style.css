@@ -21,8 +21,24 @@ body {
   left: 0;
 }
 
-#menu, #menu > * {
-  transition: border-color .5s, background-color .5s, color .1s;
+#menu, #option-wrapper * {
+  transition: background-color .5s ease, color .1s ease;
+}
+
+#option-wrapper {
+  overflow: hidden;
+  border: 1px solid #00000000;
+  opacity: 0;
+  max-height: 0;
+  transition: opacity, border-color, padding, max-height;
+  transition-duration: 0.3s, 0.5s;
+  transition-timing-function: ease;
+}
+
+#option-wrapper.collapsed {
+  border-color: inherit;
+  opacity: 1;
+  max-height: 25vh;
 }
 
 .form-select:focus {
