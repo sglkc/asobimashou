@@ -47,6 +47,7 @@
 							<button class="btn btn-outline-dark game-theme active" value="light">Light</button>
 							<button class="btn btn-outline-dark game-theme" value="dark">Dark</button>
 						</div>
+						<button id="game-kanji" class="btn btn-outline-dark rounded-0 rounded-bottom">Show Kanji</button>
 					</div>
 					<div class="col-auto btn-group-vertical" role="group">
 						<input type="radio" class="btn-check" name="game-type" id="game-hiragana" checked>
@@ -85,7 +86,9 @@
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-auto py-5">
-					<h1 id="question" class="display-4 game-font-change">またひとり</h1>
+					<ruby id="question" class="display-4 game-font-change">
+						またひとり<rt>また一人</rt>
+					</ruby>
 					<input id="question-id" class="d-none" type="number">
 				</div>
 			</div>

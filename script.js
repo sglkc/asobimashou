@@ -8,7 +8,8 @@ const DEFAULT = {
   theme: 'light',
   font: 'inherit',
   dakuten: true,
-  card: 'Random'
+  card: 'Random',
+  kanji: false
 };
 const LOCAL = JSON.parse(localStorage.getItem('GAME')) || {};
 const GAME = Object.assign({}, DEFAULT, LOCAL);
@@ -27,7 +28,9 @@ $('label[for="game-dakuten"] span').toggleClass(
   'text-decoration-line-through', !GAME.dakuten
 );
 
-if (GAME.card !== DEFAULT.card) $('.game-type').toggleClass();
+if (GAME.card !== DEFAULT.card) $('.game-card').toggleClass('active');
+
+$('#game-kanji').toggleClass('active', GAME.kanji);
 
 /* Game setting functions */
 function changeFont() {
@@ -116,16 +119,19 @@ function nextQuestion() {
   const hiragana = card.hiragana.constructor === Array
     ? card.hiragana[Math.floor(Math.random()*card.hiragana.length)]
     : card.hiragana;
-  const katakana = wanakana.toKatakana(hiragana);
+  let kanji = card.kanji;
   let question = hiragana;
 
   if (GAME.type === 'game-mixed') {
-    question = Math.random() < 0.5 ? hiragana : katakana;
+    const random = Math.random() < 0.5;
+    question = random ? hiragana : wanakana.toKatakana(question);
+    kanji = random ? kanji : wanakana.toKatakana(kanji);
   } else if (GAME.type === 'game-katakana') {
     question = katakana;
+    kanji = wanakana.toKatakana(kanji);
   }
 
-  $('#question').text(question);
+  $('#question').html(`${question}<rt>${GAME.kanji ? kanji : ''}</rt>`);
   $('#question-id').val(id);
   $('#answer').val('');
   $('#score').html(
@@ -142,10 +148,14 @@ $('#game-font').change(() => {
 
 $('.game-theme').click((evt) => {
   if ($(evt.target).hasClass('active')) return;
-  $('.game-theme').removeClass('active');
-  $(evt.target).addClass('active');
+  $('.game-theme').toggleClass('active');
   GAME.theme = $(evt.target).val();
   toggleTheme();
+});
+
+$('#game-kanji').click(() => {
+  $('#game-kanji').toggleClass('active');
+  GAME.kanji = !GAME.kanji;
 });
 
 $('#game-dakuten').click(() => {
@@ -156,12 +166,14 @@ $('#game-dakuten').click(() => {
 });
 
 $('.game-card').click((evt) => {
+  if ($(evt.target).hasClass('active')) return;
   $('.game-card').toggleClass('active');
   GAME.card = $(evt.target).val();
 });
 
 /* Buttons event listener */
 $('#option').click(() => {
+  $('#option').toggleClass('active');
   $('#option-wrapper').toggleClass('collapsed p-3');
 });
 $('#start').click(startGame);
@@ -201,7 +213,7 @@ $('#answer').keyup(() => {
   const jisho = 'https://jisho.org/word/' + card.kanji;
   const means = card.meaning.split(', ')[0].trim();
   const meaning = means.match(/\(((?!\)).)*$/) ? means + ')' : means;
-  const question = $('#question').text().trim();
+  const question = $('#question')[0].childNodes[0].nodeValue.trim();
   const romaji = wanakana.toRomaji(question);
   const q = wanakana.toHiragana(question);
   const answer = $('#answer').val();
