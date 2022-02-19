@@ -35,8 +35,8 @@
 				<i class="bi-gear-fill"></i> Options
 			</button>
 			<div id="option-wrapper" class="rounded">
-				<div class="row align-items-center">
-					<div class="col-auto btn-group-vertical">
+				<div class="row justify-content-center align-items-start gy-3">
+					<div class="col-auto btn-group-vertical" role="group">
 						<select id="game-font" class="form-select rounded-0 rounded-top">
 							<option value="inherit" selected>Default Font</option>
 							<option value="Klee One">Klee One</option>
@@ -56,11 +56,15 @@
 						<input type="radio" class="btn-check" name="game-type" id="game-katakana">
 						<label class="btn btn-outline-dark" for="game-katakana">カタカナ</label>
 					</div>
-					<div class="col-auto">
+					<div class="col-auto btn-group-vertical" role="group">
 						<input type="checkbox" class="btn-check" id="game-dakuten" checked>
 						<label class="btn btn-outline-dark" for="game-dakuten">
 							<span>Dakuten</span>
 						</label>
+						<div class="btn-group">
+							<button class="btn btn-outline-dark game-card active" value="Random">Random</button>
+							<button class="btn btn-outline-dark game-card" value="N5">JLPT N5</button>
+						</div>
 					</div>
 				</div>
 			</div>

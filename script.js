@@ -7,7 +7,8 @@ const DEFAULT = {
   type: 'game-hiragana',
   theme: 'light',
   font: 'inherit',
-  dakuten: true
+  dakuten: true,
+  card: 'Random'
 };
 const LOCAL = JSON.parse(localStorage.getItem('GAME')) || {};
 const GAME = Object.assign({}, DEFAULT, LOCAL);
@@ -16,8 +17,7 @@ let started = false;
 /* Apply saved game settings */
 if (GAME.font !== DEFAULT.font) changeFont();
 if (GAME.theme !== DEFAULT.theme) {
-  $('.game-theme').removeClass('active');
-  $('.game-theme[value=dark]').addClass('active');
+  $('.game-theme').toggleClass('active');
   toggleTheme();
 }
 
@@ -26,6 +26,8 @@ $('#game-dakuten').prop('checked', GAME.dakuten);
 $('label[for="game-dakuten"] span').toggleClass(
   'text-decoration-line-through', !GAME.dakuten
 );
+
+if (GAME.card !== DEFAULT.card) $('.game-type').toggleClass();
 
 /* Game setting functions */
 function changeFont() {
@@ -102,16 +104,18 @@ function nextQuestion() {
     'ば','ぶ','び','べ','ぼ','が','ぎ','ぐ','げ','ご','ざ','じ','ず','ぜ','ぞ',
     'だ','ぢ','づ','で','ど','ぱ','ぴ','ぷ','ぺ','ぽ'
   ];
-  let id = Math.floor(Math.random()*cards.length);
+  let id = Math.floor(Math.random()*cards[GAME.card].length);
 
   if (!(GAME.dakuten)) {
     do {
-      id = Math.floor(Math.random()*cards.length);
-    } while (dakuten.some(e => cards[id].hiragana.includes(e)))
+      id = Math.floor(Math.random()*cards[GAME.card].length);
+    } while (dakuten.some(e => cards[GAME.card][id].hiragana.includes(e)));
   }
 
-  const card = cards[id];
-  const hiragana = card.hiragana;
+  const card = cards[GAME.card][id];
+  const hiragana = card.hiragana.constructor === Array
+    ? card.hiragana[Math.floor(Math.random()*card.hiragana.length)]
+    : card.hiragana;
   const katakana = wanakana.toKatakana(hiragana);
   let question = hiragana;
 
@@ -151,6 +155,11 @@ $('#game-dakuten').click(() => {
   );
 });
 
+$('.game-card').click((evt) => {
+  $('.game-card').toggleClass('active');
+  GAME.card = $(evt.target).val();
+});
+
 /* Buttons event listener */
 $('#option').click(() => {
   $('#option-wrapper').toggleClass('collapsed p-3');
@@ -173,10 +182,9 @@ $('#copy').click(() => {
 $('#share').click(() => {
   const average = (GAME.timer / (GAME.answered + GAME.skipped));
   const type = $(`label[for="${GAME.type}"]`).text().trim();
-  const dakuten = GAME.dakuten ? 'with' : 'without';
   const text = 'Asobimashou! 遊びましょう！\n' +
     `${location.href}\n` +
-    `Game Type: ${type}, ${dakuten} dakuten\n` +
+    `Card: ${GAME.card} | Type: ${type} | Dakuten: ${GAME.dakuten}\n` +
     `Answered: ${GAME.answered} | Skipped: ${GAME.skipped}\n` +
     `Time: ${GAME.timer}s | Average: ${average.toFixed(2)}s`;
   const element = $(`<textarea>${text}</textarea>`).appendTo('#result')
@@ -189,7 +197,7 @@ $('#share').click(() => {
 /* Answer input handling */
 $('#answer').keyup(() => {
   const id = $('#question-id').val();
-  const card = cards[id];
+  const card = cards[GAME.card][id];
   const jisho = 'https://jisho.org/word/' + card.kanji;
   const means = card.meaning.split(', ')[0].trim();
   const meaning = means.match(/\(((?!\)).)*$/) ? means + ')' : means;
