@@ -12,13 +12,6 @@ const DEFAULT = {
 const LOCAL = JSON.parse(localStorage.getItem('GAME')) || {};
 const GAME = Object.assign({}, DEFAULT, LOCAL);
 let started = false;
-let cards;
-
-$.getJSON('cards.json', (data) => {
-  cards = data.cards;
-  $('#start').prop('disabled', false);
-  $('#start').html('<i class="bi-play-fill"></i> Start');
-});
 
 /* Apply saved game settings */
 if (GAME.font !== DEFAULT.font) changeFont();
@@ -93,7 +86,8 @@ function restartGame() {
     $('#time').html('0 <i class="bi-clock"></i>');
     $('#score').html('<i class="bi-check-circle"></i> 0');
     $('#review-wrapper b').remove();
-    $('#copy').html('<i class="bi-share"></i> Share');
+    $('#copy').html('<i class="bi-table"></i> Copy Table');
+    $('#share').html('<i class="bi-share"></i> Share');
     $('#start').prop('disabled', false);
     $('#start').focus();
   });
@@ -165,19 +159,31 @@ $('#start').click(startGame);
 $('#stop').click(stopGame);
 $('#restart').click(restartGame);
 $('#copy').click(() => {
+  const text = $('#review-table').text()
+    .replaceAll('‎‎', '\n')
+    .replaceAll('‎', ' ー ')
+    .trim()
+    || 'Why did I copy this?';
+  const element = $(`<textarea>${text}</textarea>`).appendTo('#result')
+    .select();
+  document.execCommand('copy');
+  element.remove();
+  $('#copy').html('<i class="bi-table"></i> Copied!');
+});
+$('#share').click(() => {
   const average = (GAME.timer / (GAME.answered + GAME.skipped));
   const type = $(`label[for="${GAME.type}"]`).text().trim();
   const dakuten = GAME.dakuten ? 'with' : 'without';
   const text = 'Asobimashou! 遊びましょう！\n' +
-    'https://asobimashou.netlify.app/\n' +
+    `${location.href}\n` +
     `Game Type: ${type}, ${dakuten} dakuten\n` +
     `Answered: ${GAME.answered} | Skipped: ${GAME.skipped}\n` +
     `Time: ${GAME.timer}s | Average: ${average.toFixed(2)}s`;
-  const element = $('<textarea></textarea>').appendTo('#result');
-  $(element).html(text).select();
+  const element = $(`<textarea>${text}</textarea>`).appendTo('#result')
+    .select();
   document.execCommand('copy');
   $(element).remove();
-  $('#copy').html('<i class="bi-share"></i> Copied to clipboard!');
+  $('#share').html('<i class="bi-share"></i> Copied!');
 });
 
 /* Answer input handling */
@@ -185,7 +191,8 @@ $('#answer').keyup(() => {
   const id = $('#question-id').val();
   const card = cards[id];
   const jisho = 'https://jisho.org/word/' + card.kanji;
-  const meaning = card.meaning.split(', ')[0];
+  const means = card.meaning.split(', ')[0].trim();
+  const meaning = means.match(/\(((?!\)).)*$/) ? means + ')' : means;
   const question = $('#question').text().trim();
   const romaji = wanakana.toRomaji(question);
   const q = wanakana.toHiragana(question);
@@ -194,8 +201,9 @@ $('#answer').keyup(() => {
 
   if (answer.indexOf(' ') > -1) {
     $('#review-table').append(
-      `<tr><th><a href="${jisho}" target="_blank">${question}</a>` +
-      `</th><td class="text-danger">${romaji}</td><td>${meaning}</td></tr>`
+      `<tr><th><i class="d-none">❌（${card.kanji}）</i>`+
+      `<a href="${jisho}" target="_blank">${question}</a>‎</th>` +
+      `<td class="text-danger">${romaji}‎</td><td>${meaning}‎‎</td></tr>`
     );
     GAME.skipped++;
     return nextQuestion();
@@ -204,8 +212,9 @@ $('#answer').keyup(() => {
   if (q !== a) return;
 
   $('#review-table').append(
-    `<tr><th><a href="${jisho}" target="_blank">${question}</a>` +
-    `</th><td>${romaji}</td><td>${meaning}</td></tr>`
+    `<tr><th><i class="d-none">（${card.kanji}）</i>`+
+    `<a href="${jisho}" target="_blank">${question}</a>‎</th>` +
+    `<td>${romaji}‎</td><td>${meaning}‎‎</td></tr>`
   );
   GAME.answered++;
   nextQuestion();
