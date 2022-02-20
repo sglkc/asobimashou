@@ -50,20 +50,16 @@
 						<button id="game-kanji" class="btn btn-outline-dark rounded-0 rounded-bottom">Show Kanji</button>
 					</div>
 					<div class="col-auto btn-group-vertical" role="group">
-						<input type="radio" class="btn-check" name="game-type" id="game-hiragana" checked>
-						<label class="btn btn-outline-dark" for="game-hiragana">ひらがな</label>
-						<input type="radio" class="btn-check" name="game-type" id="game-mixed">
-						<label class="btn btn-outline-dark" for="game-mixed">Mixed</label>
-						<input type="radio" class="btn-check" name="game-type" id="game-katakana">
-						<label class="btn btn-outline-dark" for="game-katakana">カタカナ</label>
+						<button id="game-hiragana" class="btn btn-outline-dark game-type active">ひらがな</button>
+						<button id="game-mixed" class="btn btn-outline-dark game-type">Mixed</button>
+						<button id="game-katakana" class="btn btn-outline-dark game-type">カタカナ</button>
 					</div>
 				</div>
 				<div class="row justify-content-center">
 					<div class="col-auto btn-group-vertical" role="group">
-						<input type="checkbox" class="btn-check" id="game-dakuten" checked>
-						<label class="btn btn-outline-dark" for="game-dakuten">
+						<button id="game-dakuten" class="btn btn-outline-dark active">
 							<span>Dakuten</span>
-						</label>
+						</button>
 						<div class="btn-group">
 							<button class="btn btn-outline-dark game-card active" value="Random">Random</button>
 							<button class="btn btn-outline-dark game-card" value="JLPT">JLPT N5-N4</button>

@@ -22,15 +22,16 @@ if (GAME.theme !== DEFAULT.theme) {
   toggleTheme();
 }
 
-$(`#${GAME.type}`).prop('checked', true);
-$('#game-dakuten').prop('checked', GAME.dakuten);
-$('label[for="game-dakuten"] span').toggleClass(
+$(`#${GAME.type}`).prop('active', true);
+$('#game-dakuten').toggleClass('active', GAME.dakuten);
+$('#game-dakuten > span').toggleClass(
   'text-decoration-line-through', !GAME.dakuten
 );
 
 if (GAME.card !== DEFAULT.card) $('.game-card').toggleClass('active');
 
-$('#game-kanji').toggleClass('active', GAME.kanji);
+$('#game-kanji').toggleClass('active', GAME.kanji)
+  .toggleClass('text-decoration-line-through', !GAME.kanji);
 
 /* Game setting functions */
 function changeFont() {
@@ -47,61 +48,6 @@ function toggleTheme() {
 };
 
 /* Game functions */
-function startGame() {
-  const element = $('#time');
-  const interval = setInterval(() => {
-    if (!started) return clearInterval(interval);
-    element.html(`${++GAME.timer} <i class="bi-clock"></i>`);
-  }, 1000);
-
-  $('#review-table').html('');
-  $('#start').prop('disabled', true);
-  $('#game').removeClass('d-none');
-  $('#menu').slideUp(500);
-  $('#answer').focus();
-  started = true;
-  GAME.type = $("input[name='game-type']:checked").prop('id');
-  localStorage.setItem('GAME', JSON.stringify(GAME));
-  nextQuestion();
-}
-
-function stopGame() {
-  const average = (GAME.timer / (GAME.answered + GAME.skipped));
-
-  $('#result').removeClass('d-none').animate({ top: '0' }, 'slow');
-  $('#stats-answered').text(GAME.answered);
-  $('#stats-skipped').text(GAME.skipped);
-  $('#stats-timer').text(GAME.timer + 's');
-  $('#stats-average').text(average.toFixed(2) + 's');
-  $('#restart').focus();
-  started = false;
-
-  if (!GAME.answered && !GAME.skipped) {
-    $('#review-wrapper').prepend('<b>Be serious.</b>');
-  } else if (!GAME.answered && GAME.skipped) {
-    $('#review-wrapper').prepend('<b>Practice more!</b>');
-  }
-}
-
-function restartGame() {
-  $('#menu').slideDown(750);
-  $('#result').animate({ top: '100vh' }, 800, () => {
-    $('#result').addClass('d-none');
-    $('#game').addClass('d-none');
-    $('#time').html('0 <i class="bi-clock"></i>');
-    $('#score').html('<i class="bi-check-circle"></i> 0');
-    $('#review-wrapper b').remove();
-    $('#copy').html('<i class="bi-table"></i> Copy Table');
-    $('#share').html('<i class="bi-share"></i> Share');
-    $('#start').prop('disabled', false);
-    $('#start').focus();
-  });
-
-  GAME.timer = DEFAULT.timer;
-  GAME.answered = DEFAULT.answered;
-  GAME.skipped = DEFAULT.skipped;
-}
-
 function nextQuestion() {
   const dakuten = [
     'ば','ぶ','び','べ','ぼ','が','ぎ','ぐ','げ','ご','ざ','じ','ず','ぜ','ぞ',
@@ -154,15 +100,24 @@ $('.game-theme').click((evt) => {
 });
 
 $('#game-kanji').click(() => {
-  $('#game-kanji').toggleClass('active');
   GAME.kanji = !GAME.kanji;
+  $('#game-kanji').toggleClass('active', GAME.kanji)
+    .toggleClass('text-decoration-line-through', !GAME.kanji);
+});
+
+$('.game-type').click((evt) => {
+  if ($(evt.target).hasClass('active')) return;
+  $('.game-type').removeClass('active');
+  $(evt.target).addClass('active');
+  GAME.type = $(evt.target).prop('id');
 });
 
 $('#game-dakuten').click(() => {
-  GAME.dakuten = $('#game-dakuten').prop('checked');
-  $('label[for="game-dakuten"] span').toggleClass(
+  $('#game-dakuten').toggleClass('active');
+  $('#game-dakuten > span').toggleClass(
     'text-decoration-line-through', !GAME.dakuten
   );
+  GAME.dakuten = !$('#game-dakuten').hasClass('active');
 });
 
 $('.game-card').click((evt) => {
@@ -176,9 +131,61 @@ $('#option').click(() => {
   $('#option').toggleClass('active');
   $('#option-wrapper').toggleClass('collapsed p-3');
 });
-$('#start').click(startGame);
-$('#stop').click(stopGame);
-$('#restart').click(restartGame);
+
+$('#start').click(() => {
+  const element = $('#time');
+  const interval = setInterval(() => {
+    if (!started) return clearInterval(interval);
+    element.html(`${++GAME.timer} <i class="bi-clock"></i>`);
+  }, 1000);
+
+  $('#review-table').html('');
+  $('#start').prop('disabled', true);
+  $('#game').removeClass('d-none');
+  $('#menu').slideUp(500);
+  $('#answer').focus();
+  started = true;
+  localStorage.setItem('GAME', JSON.stringify(GAME));
+  nextQuestion();
+});
+
+$('#stop').click(() => {
+  const average = (GAME.timer / (GAME.answered + GAME.skipped));
+
+  $('#result').removeClass('d-none').animate({ top: '0' }, 'slow');
+  $('#stats-answered').text(GAME.answered);
+  $('#stats-skipped').text(GAME.skipped);
+  $('#stats-timer').text(GAME.timer + 's');
+  $('#stats-average').text(average.toFixed(2) + 's');
+  $('#restart').focus();
+  started = false;
+
+  if (!GAME.answered && !GAME.skipped) {
+    $('#review-wrapper').prepend('<b>Be serious.</b>');
+  } else if (!GAME.answered && GAME.skipped) {
+    $('#review-wrapper').prepend('<b>Practice more!</b>');
+  }
+});
+
+$('#restart').click(() => {
+  $('#menu').slideDown(750);
+  $('#result').animate({ top: '100vh' }, 800, () => {
+    $('#result').addClass('d-none');
+    $('#game').addClass('d-none');
+    $('#time').html('0 <i class="bi-clock"></i>');
+    $('#score').html('<i class="bi-check-circle"></i> 0');
+    $('#review-wrapper b').remove();
+    $('#copy').html('<i class="bi-table"></i> Copy Table');
+    $('#share').html('<i class="bi-share"></i> Share');
+    $('#start').prop('disabled', false);
+    $('#start').focus();
+  });
+
+  GAME.timer = DEFAULT.timer;
+  GAME.answered = DEFAULT.answered;
+  GAME.skipped = DEFAULT.skipped;
+});
+
 $('#copy').click(() => {
   const text = $('#review-table').text()
     .replaceAll('‎‎', '\n')
@@ -191,6 +198,7 @@ $('#copy').click(() => {
   element.remove();
   $('#copy').html('<i class="bi-table"></i> Copied!');
 });
+
 $('#share').click(() => {
   const average = (GAME.timer / (GAME.answered + GAME.skipped));
   const type = $(`label[for="${GAME.type}"]`).text().trim();
@@ -241,5 +249,5 @@ $('#answer').keyup(() => {
 });
 
 $('#answer').keydown((e) => {
-  if (e.key === 'Tab') stopGame();
+  if (e.key === 'Tab') $('#stop').click();
 });
