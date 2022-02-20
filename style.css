@@ -38,7 +38,7 @@ body {
 #option-wrapper.collapsed {
   border-color: inherit;
   opacity: 1;
-  max-height: 25vh;
+  max-height: 40vh;
 }
 
 .form-select:focus {
