@@ -65,6 +65,7 @@ function nextQuestion() {
   const hiragana = card.hiragana.constructor === Array
     ? card.hiragana[Math.floor(Math.random()*card.hiragana.length)]
     : card.hiragana;
+  const katakana = wanakana.toKatakana(hiragana);
   let kanji = card.kanji;
   let question = hiragana;
 
