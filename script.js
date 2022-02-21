@@ -149,6 +149,10 @@ $('#start').click(() => {
   nextQuestion();
 });
 
+$('#review').click(() => {
+  $('#result').removeClass('d-none').animate({ top: '0' }, 'slow');
+});
+
 $('#stop').click(() => {
   const average = (GAME.timer / (GAME.answered + GAME.skipped));
 
@@ -157,6 +161,7 @@ $('#stop').click(() => {
   $('#stats-skipped').text(GAME.skipped);
   $('#stats-timer').text(GAME.timer + 's');
   $('#stats-average').text(average.toFixed(2) + 's');
+  $('#review').prop('disabled', false);
   $('#restart').focus();
   started = false;
 

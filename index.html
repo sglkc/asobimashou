@@ -27,45 +27,50 @@
 			<div class="mb-3 display-5 game-font-change">
 				<ruby>遊びましょう！<rt>Asobimashou!</rt></ruby>
 			</div>
-			<button id="start" class="btn btn-outline-dark mb-3" disabled>
-				<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-				<span>Loading Game...</span>
-			</button>
-			<button id="option" class="btn btn-outline-dark mb-3">
-				<i class="bi-gear-fill"></i> Options
-			</button>
-			<div id="option-wrapper" class="rounded">
-				<div class="row justify-content-center mb-3">
-					<div class="col-auto btn-group-vertical" role="group">
-						<select id="game-font" class="form-select rounded-0 rounded-top">
-							<option value="inherit" selected>Default Font</option>
-							<option value="Klee One">Klee One</option>
-							<option value="Noto Serif JP">Noto Serif JP</option>
-							<option value="Yuji Syuku">Yuji Syuku</option>
-						</select>
-						<div class="btn-group" role="group">
-							<button class="btn btn-outline-dark game-theme active" value="light">Light</button>
-							<button class="btn btn-outline-dark game-theme" value="dark">Dark</button>
+			<div class="btn-group-vertical" role="group">
+				<button id="start" class="btn btn-outline-dark py-2" disabled>
+					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+					<span>Loading Game...</span>
+				</button>
+				<button id="option" class="btn btn-outline-dark py-2">
+					<i class="bi-gear-fill"></i> Options
+				</button>
+				<div id="option-wrapper" class="border">
+					<div class="row justify-content-center mb-3">
+						<div class="col-auto btn-group-vertical" role="group">
+							<select id="game-font" class="form-select rounded-0 rounded-top">
+								<option value="inherit" selected>Default Font</option>
+								<option value="Klee One">Klee One</option>
+								<option value="Noto Serif JP">Noto Serif JP</option>
+								<option value="Yuji Syuku">Yuji Syuku</option>
+							</select>
+							<div class="btn-group" role="group">
+								<button class="btn btn-outline-dark game-theme active" value="light">Light</button>
+								<button class="btn btn-outline-dark game-theme ms-0" value="dark">Dark</button>
+							</div>
+							<button id="game-kanji" class="btn btn-outline-dark rounded-0 rounded-bottom">Show Kanji</button>
 						</div>
-						<button id="game-kanji" class="btn btn-outline-dark rounded-0 rounded-bottom">Show Kanji</button>
-					</div>
-					<div class="col-auto btn-group-vertical" role="group">
-						<button id="game-hiragana" class="btn btn-outline-dark game-type active">ひらがな</button>
-						<button id="game-mixed" class="btn btn-outline-dark game-type">Mixed</button>
-						<button id="game-katakana" class="btn btn-outline-dark game-type">カタカナ</button>
-					</div>
-				</div>
-				<div class="row justify-content-center">
-					<div class="col-auto btn-group-vertical" role="group">
-						<button id="game-dakuten" class="btn btn-outline-dark active">
-							<span>Dakuten</span>
-						</button>
-						<div class="btn-group">
-							<button class="btn btn-outline-dark game-card active" value="Random">Random</button>
-							<button class="btn btn-outline-dark game-card" value="JLPT">JLPT N5-N4</button>
+						<div class="col-auto btn-group-vertical" role="group">
+							<button id="game-hiragana" class="btn btn-outline-dark game-type active">ひらがな</button>
+							<button id="game-mixed" class="btn btn-outline-dark game-type">Mixed</button>
+							<button id="game-katakana" class="btn btn-outline-dark game-type">カタカナ</button>
 						</div>
 					</div>
+					<div class="row justify-content-center">
+						<div class="col-auto btn-group-vertical" role="group">
+							<button id="game-dakuten" class="btn btn-outline-dark active">
+								<span>Dakuten</span>
+							</button>
+							<div class="btn-group">
+								<button class="btn btn-outline-dark game-card active" value="Random">Random</button>
+								<button class="btn btn-outline-dark game-card" value="JLPT">JLPT N5-N4</button>
+							</div>
+						</div>
+					</div>
 				</div>
+				<button id="review" class="btn btn-outline-dark py-2" disabled>
+					<i class="bi-arrow-counterclockwise"></i> Review
+				</button>
 			</div>
 		</section>
 
