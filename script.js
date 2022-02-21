@@ -22,7 +22,7 @@ if (GAME.theme !== DEFAULT.theme) {
   toggleTheme();
 }
 
-$(`#${GAME.type}`).prop('active', true);
+$(`#${GAME.type}`).addClass('active');
 $('#game-dakuten').toggleClass('active', GAME.dakuten);
 $('#game-dakuten > span').toggleClass(
   'text-decoration-line-through', !GAME.dakuten
@@ -87,6 +87,12 @@ function nextQuestion() {
 }
 
 /* Game settings */
+$('#option-wrapper button, #game-font').click(() => {
+  setTimeout(() => {
+    localStorage.setItem('GAME', JSON.stringify(GAME));
+  }, 100);
+});
+
 $('#game-font').change(() => {
   GAME.font = $('#game-font').val();
   changeFont();
@@ -115,9 +121,9 @@ $('.game-type').click((evt) => {
 $('#game-dakuten').click(() => {
   $('#game-dakuten').toggleClass('active');
   $('#game-dakuten > span').toggleClass(
-    'text-decoration-line-through', !GAME.dakuten
+    'text-decoration-line-through'
   );
-  GAME.dakuten = !$('#game-dakuten').hasClass('active');
+  GAME.dakuten = !GAME.dakuten;
 });
 
 $('.game-card').click((evt) => {
@@ -145,7 +151,6 @@ $('#start').click(() => {
   $('#menu').slideUp(500);
   $('#answer').focus();
   started = true;
-  localStorage.setItem('GAME', JSON.stringify(GAME));
   nextQuestion();
 });
 
