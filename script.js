@@ -212,7 +212,7 @@ $('#copy').click(() => {
 
 $('#share').click(() => {
   const average = (GAME.timer / (GAME.answered + GAME.skipped));
-  const type = $(`label[for="${GAME.type}"]`).text().trim();
+  const type = $('.game-type.active').text().trim();
   const text = 'Asobimashou! 遊びましょう！\n' +
     `${location.href}\n` +
     `Card: ${GAME.card} | Type: ${type} | Dakuten: ${GAME.dakuten}\n` +
