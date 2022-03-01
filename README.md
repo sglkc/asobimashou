@@ -1,9 +1,10 @@
 <h1 align="center">Asobimashou!</h1>
-<div style="text-align: center;">![Preview](/preview.png?raw=true)
-![GitHub Pages](https://img.shields.io/github/workflow/status/sglkc/asobimashou/pages%20build%20and%20deployment?logo=github&style=flat)
+
+<img src="/preview.png?raw=true" alt="Preview">
+<img src="https://img.shields.io/github/workflow/status/sglkc/asobimashou/pages%20build%20and%20deployment?logo=github&style=flat"
+     alt="GitHub Page">
 
 <h3>A minimal website to practice reading Japanese kana!</h3>
-</div>
 
 ## Game Options
 - Four different fonts
