@@ -234,9 +234,10 @@ $('#answer').keyup(() => {
   const meaning = means.match(/\(((?!\)).)*$/) ? means + ')' : means;
   const question = $('#question')[0].childNodes[0].nodeValue.trim();
   const romaji = wanakana.toRomaji(question);
-  const q = wanakana.toHiragana(question);
+  const options = { customKanaMapping: {'dzu':'づ'};
+  const q = wanakana.toHiragana(question, options);
   const answer = $('#answer').val();
-  const a = wanakana.toHiragana(answer);
+  const a = wanakana.toHiragana(answer, options);
 
   if (answer.indexOf(' ') > -1) {
     $('#review-table').append(
