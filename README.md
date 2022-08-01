@@ -1,6 +1,6 @@
 <h1 align="center">Asobimashou!</h1>
 
-<img src="/preview.png?raw=true" alt="Preview">
+<img src="assets/preview.png?raw=true" alt="Preview">
 <img src="https://img.shields.io/github/workflow/status/sglkc/asobimashou/pages%20build%20and%20deployment?logo=github&style=flat"
      alt="GitHub Page">
 
@@ -24,3 +24,6 @@
 - Words table with kana link to Jisho, romaji and meaning
 - Copy Table button complete with kanji, kana, romaji and meaning
 - Share button to copy latest game statistics
+
+## License
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
