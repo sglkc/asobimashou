@@ -1,20 +1,21 @@
-const CACHE_NAME = 'offline-v1';
+const CACHE_NAME = 'offline-v2';
 const toCache = [
-  'index.html',
-  'favicon.ico',
-  'assets/js/bootstrap.bundle.min.js',
-  'assets/js/script.js',
-  'assets/js/cards.js',
-  'assets/js/jquery-3.6.0.min.js',
-  'assets/js/wanakana.min.js',
-  'assets/css/bootstrap.min.css',
-  'assets/css/style.css',
-  'assets/css/icons.css',
-  'assets/css/fonts.css',
-  'assets/fonts/bootstrap-icons.woff2',
-  'assets/fonts/klee-one.woff2',
-  'assets/fonts/noto-serif-jp.woff2',
-  'assets/fonts/yuji-syuku.woff2',
+  './',
+  './index.html',
+  './favicon.ico',
+  './assets/js/bootstrap.bundle.min.js',
+  './assets/js/script.js',
+  './assets/js/cards.js',
+  './assets/js/jquery-3.6.0.min.js',
+  './assets/js/wanakana.min.js',
+  './assets/css/bootstrap.min.css',
+  './assets/css/style.css',
+  './assets/css/icons.css',
+  './assets/css/fonts.css',
+  './assets/fonts/bootstrap-icons.woff2',
+  './assets/fonts/klee-one.woff2',
+  './assets/fonts/noto-serif-jp.woff2',
+  './assets/fonts/yuji-syuku.woff2',
 ];
 
 self.addEventListener('install', (event) => {
