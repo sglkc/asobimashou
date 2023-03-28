@@ -1,18 +1,20 @@
 const CACHE_NAME = 'offline-v1';
 const toCache = [
-  'js/bootstrap.bundle.min.js',
-  'js/script.js',
-  'js/cards.js',
-  'js/jquery-3.6.0.min.js',
-  'js/wanakana.min.js',
-  'css/bootstrap.min.css',
-  'css/style.css',
-  'css/icons.css',
-  'css/fonts.css',
-  'fonts/bootstrap-icons.woff2',
-  'fonts/klee-one.woff2',
-  'fonts/noto-serif-jp.woff2',
-  'fonts/yuji-syuku.woff2',
+  'index.html',
+  'favicon.ico',
+  'assets/js/bootstrap.bundle.min.js',
+  'assets/js/script.js',
+  'assets/js/cards.js',
+  'assets/js/jquery-3.6.0.min.js',
+  'assets/js/wanakana.min.js',
+  'assets/css/bootstrap.min.css',
+  'assets/css/style.css',
+  'assets/css/icons.css',
+  'assets/css/fonts.css',
+  'assets/fonts/bootstrap-icons.woff2',
+  'assets/fonts/klee-one.woff2',
+  'assets/fonts/noto-serif-jp.woff2',
+  'assets/fonts/yuji-syuku.woff2',
 ];
 
 self.addEventListener('install', (event) => {

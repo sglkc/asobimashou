@@ -1,6 +1,6 @@
 /* Offline support */
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./assets/sw.js')
+  navigator.serviceWorker.register('./sw.js')
     .then(() => console.log('Ready for offline-use'))
     .catch((error) => console.error('Error while preparing: ', error));
 }
