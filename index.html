@@ -1,158 +1,153 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="theme-color" content="#F8F9FA">
-		<meta property="og:type" content="website">
-		<meta property="og:title" content="Asobimashou!">
-		<meta property="og:site_name" content="あそびましょう！">
-		<meta property="og:description" content="A minimal website to practice reading Japanese katakana and hiragana!">
-		<meta property="twitter:image" content="https://sglkc.github.io/asobimashou/thumbnail.png">
-		<link href="favicon.ico" rel="icon">
-		<link href="assets/style.css" rel="stylesheet">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
-			rel="stylesheet">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-			integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-			rel="stylesheet" crossorigin="anonymous">
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="https://unpkg.com/wanakana@4.0.1"></script>
-		<title>Asobimashou!</title>
-	</head>
-	<body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#F8F9FA">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Asobimashou!">
+    <meta property="og:site_name" content="あそびましょう！">
+    <meta property="og:description" content="A minimal website to practice reading Japanese katakana and hiragana!">
+    <meta property="twitter:image" content="https://sglkc.github.io/asobimashou/thumbnail.png">
+    <link href="favicon.ico" rel="icon">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/icons.css" rel="stylesheet">
+    <link href="assets/css/fonts.css" rel="stylesheet">
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/wanakana.min.js"></script>
+  <title>Asobimashou!</title>
+  </head>
+  <body>
 
-		<!-- Main Menu -->
-		<section id="menu" class="bg-light">
-			<div class="mb-3 display-5 game-font-change">
-				<ruby>あそびましょう！<rt>Asobimashou!</rt></ruby>
-			</div>
-			<div class="btn-group-vertical" role="group">
-				<button id="start" class="btn btn-outline-dark py-2" disabled>
-					<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-					<span>Loading Game...</span>
-				</button>
-				<button id="option" class="btn btn-outline-dark py-2">
-					<i class="bi-gear-fill"></i> Options
-				</button>
-				<div id="option-wrapper" class="border">
-					<div class="row justify-content-center mb-3">
-						<div class="col-auto btn-group-vertical" role="group">
-							<select id="game-font" class="form-select rounded-0 rounded-top">
-								<option value="inherit" selected>Default Font</option>
-								<option value="Klee One">Klee One</option>
-								<option value="Noto Serif JP">Noto Serif JP</option>
-								<option value="Yuji Syuku">Yuji Syuku</option>
-							</select>
-							<div class="btn-group" role="group">
-								<button class="btn btn-outline-dark game-theme active" value="light">Light</button>
-								<button class="btn btn-outline-dark game-theme ms-0" value="dark">Dark</button>
-							</div>
-							<button id="game-kanji" class="btn btn-outline-dark rounded-0 rounded-bottom">Show Kanji</button>
-						</div>
-						<div class="col-auto btn-group-vertical" role="group">
-							<button id="game-hiragana" class="btn btn-outline-dark game-type">ひらがな</button>
-							<button id="game-mixed" class="btn btn-outline-dark game-type">Mixed</button>
-							<button id="game-katakana" class="btn btn-outline-dark game-type">カタカナ</button>
-						</div>
-					</div>
-					<div class="row justify-content-center">
-						<div class="col-auto btn-group-vertical" role="group">
-							<button id="game-dakuten" class="btn btn-outline-dark active">
-								<span>Dakuten</span>
-							</button>
-							<div class="btn-group">
-								<button class="btn btn-outline-dark game-card active" value="Random">Random</button>
-								<button class="btn btn-outline-dark game-card" value="JLPT">JLPT N5-N4</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<button id="review" class="btn btn-outline-dark py-2" disabled>
-					<i class="bi-arrow-counterclockwise"></i> Review
-				</button>
-			</div>
-		</section>
+    <!-- Main Menu -->
+    <section id="menu" class="bg-light">
+      <div class="mb-3 display-5 game-font-change">
+        <ruby>あそびましょう！<rt>Asobimashou!</rt></ruby>
+      </div>
+      <div class="btn-group-vertical" role="group">
+        <button id="start" class="btn btn-outline-dark py-2" disabled>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <span>Loading Game...</span>
+        </button>
+        <button id="option" class="btn btn-outline-dark py-2 border-top-0 border-bottom-0">
+          <i class="bi-gear-fill"></i> Options
+        </button>
+        <div id="option-wrapper" class="border">
+          <div class="row justify-content-center mb-3">
+            <div class="col-auto btn-group-vertical" role="group">
+              <select id="game-font" class="form-select rounded-0 rounded-top">
+                <option value="inherit" selected>Default Font</option>
+              <option value="Klee One">Klee One</option>
+                <option value="Noto Serif JP">Noto Serif JP</option>
+                <option value="Yuji Syuku">Yuji Syuku</option>
+              </select>
+              <div class="btn-group" role="group">
+                <button class="btn btn-outline-dark game-theme active" value="light">Light</button>
+                <button class="btn btn-outline-dark game-theme ms-0" value="dark">Dark</button>
+              </div>
+              <button id="game-kanji" class="btn btn-outline-dark rounded-0 rounded-bottom">Show Kanji</button>
+            </div>
+            <div class="col-auto btn-group-vertical" role="group">
+              <button id="game-hiragana" class="btn btn-outline-dark game-type">ひらがな</button>
+              <button id="game-mixed" class="btn btn-outline-dark game-type">Mixed</button>
+              <button id="game-katakana" class="btn btn-outline-dark game-type">カタカナ</button>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-auto btn-group-vertical" role="group">
+              <button id="game-dakuten" class="btn btn-outline-dark active">
+                <span>Dakuten</span>
+              </button>
+              <div class="btn-group">
+                <button class="btn btn-outline-dark game-card active" value="Random">Random</button>
+                <button class="btn btn-outline-dark game-card" value="JLPT">JLPT N5-N4</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button id="review" class="btn btn-outline-dark py-2" disabled>
+          <i class="bi-arrow-counterclockwise"></i> Review
+        </button>
+      </div>
+    </section>
 
-		<!-- Play Area -->
-		<main id="game" class="container-fluid d-none">
-			<div class="row justify-content-center align-items-center">
-				<h2 id="score" class="col col-lg-3 m-0">
-					<i class="bi-check-circle"></i> 0/0
-				</h2>
-				<button id="stop" class="col-auto btn btn-outline-dark">
-					<i class="bi-stop-fill"></i> End
-				</button>
-				<h2 id="time" class="col col-lg-3 m-0">
-					0 <i class="bi-clock"></i>
-				</h2>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-auto py-5">
-					<ruby id="question" class="display-4 game-font-change">
-						またひとり<rt>また一人</rt>
-					</ruby>
-					<input id="question-id" class="d-none" type="number">
-				</div>
-			</div>
-			<div class="row justify-content-center mb-4">
-				<div class="col-10 col-md-7 col-lg-5">
-					<input id="answer" class="form-control-lg game-font-change" placeholder="Answer">
-				</div>
-			</div>
-			<div class="row justify-content-center text-center">
-				<div class="col-auto">
-					Press <kbd>Space</kbd> to skip.
-				</div>
-				<div class="col-auto d-none d-md-block">
-					Press <kbd>Tab</kbd> to end.
-				</div>
-			</div>
-		</main>
+    <!-- Play Area -->
+    <main id="game" class="container-fluid d-none">
+      <div class="row justify-content-center align-items-center">
+        <h2 id="score" class="col col-lg-3 m-0">
+          <i class="bi-check-circle"></i> 0/0
+        </h2>
+        <button id="stop" class="col-auto btn btn-outline-dark">
+          <i class="bi-stop-fill"></i> End
+        </button>
+        <h2 id="time" class="col col-lg-3 m-0">
+          0 <i class="bi-clock"></i>
+        </h2>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-auto py-5">
+          <ruby id="question" class="display-4 game-font-change">
+          またひとり<rt>また一人</rt>
+          </ruby>
+          <input id="question-id" class="d-none" type="number">
+        </div>
+      </div>
+      <div class="row justify-content-center mb-4">
+        <div class="col-10 col-md-7 col-lg-5">
+          <input id="answer" class="form-control-lg game-font-change" placeholder="Answer" autocomplete="off">
+        </div>
+      </div>
+      <div class="row justify-content-center text-center">
+        <div class="col-auto">
+          Press <kbd>Space</kbd> to skip.
+        </div>
+        <div class="col-auto d-none d-md-block">
+        Press <kbd>Tab</kbd> to end.
+        </div>
+      </div>
+    </main>
 
-		<!-- End Banner -->
-		<section id="result" class="d-none">
-			<h1><b>Final Result</b></h1>
-			<div class="row mb-3 justify-content-center">
-				<div class="col-auto">
-					<p>Answered</p>
-					<i id="stats-answered">0</i>
-				</div>
-				<div class="col-auto">
-					<p>Skipped</p>
-					<i id="stats-skipped">0</i>
-				</div>
-				<div class="col-auto">
-					<p>Time</p>
-					<i id="stats-timer">0</i>
-				</div>
-				<div class="col-auto">
-					<p>Average</p>
-					<i id="stats-average">0</i>
-				</div>
-			</div>
-			<div id="review-wrapper" class="table-responsive">
-				<table class="table table-hover m-0">
-					<tbody id="review-table" class="game-font-change"></tbody>
-				</table>
-			</div>
-			<div class="d-flex">
-				<button id="copy" class="btn btn-outline-dark me-3">
-					<i class="bi-table"></i> Copy Table
-				</button>
-				<button id="share" class="btn btn-outline-dark me-3">
-					<i class="bi-share-fill"></i> Share
-				</button>
-				<button id="restart" class="btn btn-outline-dark">
-					<i class="bi-list"></i> Title
-				</button>
-			</div>
-		</section>
-
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-				crossorigin="anonymous"></script>
-		<script src="assets/script.js"></script>
-		<script src="assets/cards.js" async></script>
-	</body>
+    <!-- End Banner -->
+    <section id="result" class="d-none">
+      <h1><b>Final Result</b></h1>
+      <div class="row mb-3 justify-content-center">
+        <div class="col-auto">
+          <p>Answered</p>
+          <i id="stats-answered">0</i>
+        </div>
+        <div class="col-auto">
+          <p>Skipped</p>
+          <i id="stats-skipped">0</i>
+        </div>
+        <div class="col-auto">
+          <p>Time</p>
+          <i id="stats-timer">0</i>
+        </div>
+        <div class="col-auto">
+          <p>Average</p>
+          <i id="stats-average">0</i>
+        </div>
+      </div>
+      <div id="review-wrapper" class="table-responsive">
+        <table class="table table-hover m-0">
+          <tbody id="review-table" class="game-font-change"></tbody>
+        </table>
+      </div>
+      <div class="d-flex">
+        <button id="copy" class="btn btn-outline-dark me-3">
+          <i class="bi-table"></i> Copy Table
+        </button>
+        <button id="share" class="btn btn-outline-dark me-3">
+          <i class="bi-share-fill"></i> Share
+        </button>
+        <button id="restart" class="btn btn-outline-dark">
+          <i class="bi-list"></i> Title
+        </button>
+      </div>
+    </section>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/cards.js" async></script>
+  </body>
 </html>

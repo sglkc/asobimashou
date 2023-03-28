@@ -1,0 +1,23 @@
+@font-face {
+  font-display: swap;
+  font-family: 'Klee One';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/klee-one.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Noto Serif JP';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/noto-serif-jp.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Yuji Syuku';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/yuji-syuku.woff2') format('woff2');
+}

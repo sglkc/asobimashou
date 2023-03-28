@@ -121,9 +121,7 @@ $('.game-type').click((evt) => {
 
 $('#game-dakuten').click(() => {
   $('#game-dakuten').toggleClass('active');
-  $('#game-dakuten > span').toggleClass(
-    'text-decoration-line-through'
-  );
+  $('#game-dakuten > span').toggleClass('text-decoration-line-through');
   GAME.dakuten = !GAME.dakuten;
 });
 
