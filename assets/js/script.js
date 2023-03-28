@@ -1,3 +1,10 @@
+/* Offline support */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./assets/sw.js')
+    .then(() => console.log('Ready for offline-use'))
+    .catch((error) => console.error('Error while preparing: ', error));
+}
+
 /* Game initialization */
 const DEFAULT = {
   total: 0,
