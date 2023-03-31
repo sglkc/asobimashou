@@ -1,8 +1,9 @@
-const CACHE_NAME = 'offline-v2';
+const CACHE_NAME = 'offline-inku-v1';
 const toCache = [
   './',
   './index.html',
   './favicon.ico',
+  './assets/inku.webp',
   './assets/js/bootstrap.bundle.min.js',
   './assets/js/script.js',
   './assets/js/cards.js',
